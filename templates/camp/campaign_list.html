@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <!-- Additional CSS styles specific to this page -->
+{% endblock css %}
+
+{% block body %}
+  <h1>Campaign</h1>
+  <a class='btn btn-outline-primary my-2 mr-2' href="{% url 'campaign_create' %}">Add Campaign</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for campaign in campaigns %}
+      <tr>
+        <td>{{ campaign.name }}</td>
+        <td>{{ campaign.date }}</td>
+        <td>
+          <a href="{% url 'campaign_update' campaign.pk %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'campaign_delete' campaign.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock body %}

@@ -1,0 +1,72 @@
+<!-- HTML template: update_provider.html -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+  <!-- Additional CSS styles specific to this page -->
+{% endblock css %}
+
+{% block body %}
+  <h1>Create Profile</h1>
+  <form id="bloodBankForm" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <!-- Add hidden fields for latitude and longitude -->
+    <input type="hidden" id="id_latitude" name="latitude">
+    <input type="hidden" id="id_longitude" name="longitude">
+    
+    <!-- Add a button to update location -->
+    <button type="button" id="updateLocationBtn" class="btn btn-primary">Get My Location</button>
+
+    <!-- Submit button (initially hidden) -->
+    <button type="submit" id="submitBtn" class="btn btn-primary" style="display: none;">Submit</button>
+  </form>
+
+  <script>
+    // Function to get the user's geolocation
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    // Function to display latitude and longitude in the form
+    function showPosition(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      document.getElementById('id_latitude').value = latitude;
+      document.getElementById('id_longitude').value = longitude;
+      
+      // Show the submit button
+      document.getElementById('submitBtn').style.display = 'block';
+      // Hide the "Get My Location" button
+      document.getElementById('updateLocationBtn').style.display = 'none';
+    }
+
+    // Function to handle errors when fetching geolocation
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          alert("User denied the request for Geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+
+    // Attach getLocation function to update location button click event
+    document.getElementById('updateLocationBtn').addEventListener('click', function() {
+      getLocation();
+    });
+  </script>
+{% endblock body %}

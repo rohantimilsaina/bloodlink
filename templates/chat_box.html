@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* Add a vertical scrollbar when content overflows */
+            max-height: 400px; /* Set a maximum height for the container */
+        }
+        
+
+        .header {
+            text-align: center;
+        }
+
+        .users-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .user-item {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .user-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .user-link:hover {
+            color: #007bff;
+        }
+
+        .user-icon {
+            font-size: 24px;
+            color: #007bff;
+        }
+        
+        .time {
+            font-size: 12px;
+            color: #888;
+            margin-left: 10px; /* Add some space between username and time */
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+        }
+        {% endblock css %}
+
+        {% block body %}
+            <div class="chat-container">
+                <h1 class="header">Users with Messages</h1>
+                <ul class="users-list">
+                    {% for user in users_with_messages %}
+                        <li class="user-item">
+                            <div class="user-icon"><i class="fas fa-user"></i></div>
+                            <div class="user-info">
+                                <a href="{% url 'chat_room' user.id %}" class="user-link">{{ user.first_name }} {{ user.last_name }}</a>
+                            </div>
+                            <span class="time">1 min ago</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+    {% endblock body %}

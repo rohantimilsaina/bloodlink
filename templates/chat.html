@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with {{ receiver.username }}</title>
+    <style>
+        /* CSS styles for sender and receiver messages */
+        /* Sender message */
+        .message.sent {
+            background-color: Green; /* Green for sender messages */
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            align-self: flex-end;
+            max-width: 70%;
+        }
+        /* Receiver message */
+        .message.received {
+            background-color: #b4a5d2; /* Light blue for receiver messages */
+            border-radius: 20px;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            align-self: flex-start;
+            max-width: 70%;
+        }
+
+        /* Remaining CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #messages {
+            max-height: 60vh; /* Adjust as needed */
+            overflow-y: auto;
+            padding-right: 10px; /* Adjust for scrollbar */
+            display: flex;
+            flex-direction: column-reverse; /* Reverse order of messages */
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat with {{ receiver.username }}</h1>
+        <div id="messages">
+            {% for message in messages %}
+                <p class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                    {{ message.content }}
+                </p>
+            {% endfor %}
+        </div>
+        <form id="message-form" method="post" action="{% url 'send_message' %}">
+            {% csrf_token %}
+            <input type="hidden" name="receiver_id" value="{{ receiver.id }}">
+            <input type="text" name="content" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to add messages to the chat window
+        function addMessage(message, sender) {
+            const messageContainer = document.createElement("p");
+            messageContainer.textContent = message;
+            messageContainer.classList.add("message");
+            if (sender === "sender") {
+                messageContainer.classList.add("sent");
+            } else {
+                messageContainer.classList.add("received");
+            }
+            document.getElementById("messages").appendChild(messageContainer);
+            scrollToBottomAndUpdate(); // Scroll to bottom after adding the message
+        }
+    
+        // Function to scroll to the bottom of the chat window
+        function scrollToBottom() {
+            var messagesDiv = document.getElementById("messages");
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    
+        // Scroll to bottom when the page loads
+        scrollToBottom();
+    
+        // Scroll to bottom after sending or receiving a message
+        function scrollToBottomAndUpdate() {
+            scrollToBottom();
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    
+        // Function to handle form submission using AJAX
+        document.getElementById("message-form").addEventListener("submit", function(e) {
+            e.preventDefault(); // Prevent default form submission
+            const form = this;
+            const formData = new FormData(form);
+            const xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Message sent successfully, add it to the chat window
+                    addMessage(formData.get("content"), "sender");
+                    form.reset(); // Clear the input field
+                }
+            };
+            xhr.send(formData);
+        });
+    </s
+    </body>
+    </html>

@@ -1,0 +1,218 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg">
+      
+  <div class="container-fluid">
+  <a class="navbar-brand" href="{% url 'home' %}" style="font-size: 30px;">
+    <img decoding="async" src="{% static "img/Final.png" %}" class="img-fluid" style="height: 50px; width: auto;">
+  </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+
+      
+      {% comment %} {% if  request.user.is_staff %} {% endcomment %}
+      <li class="nav-item">
+        {% comment %} <a class="nav-link" href="admin/">Admin Pannel</a> {% endcomment %}
+
+
+
+      {% comment %} </li> {% endcomment %}
+      {% if request.user.is_authenticated %}
+          {% if request.user.is_staff %}
+            {% if user.bloodbank %}
+                <!-- If the user is staff and has exactly one blood bank, do not display the "Update Profile" link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'provider_profile' %}">View Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'blood_list' %}">Blood</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'campaign_list' %}">Campaign</a>
+                </li>
+              {% else %}
+                <!-- If the user does not have exactly one blood bank, display the "Update Profile" link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'update_provider' %}">Update Profile</a>
+                </li>
+            {% endif %}
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_users_with_messages' %}">Chat</a>
+          </li>
+      {% endif %}
+
+      {% if request.user.is_authenticated %}
+      {% if not request.user.is_staff %}
+            {% if request.user.profile %}
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_availablity' %}">Availablity</a>
+            </li>
+            {% endif %}
+        {% if not user.profile %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile_create' %}">Update Profile</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user_profile' %}">View Profile</a>
+        </li>
+        {% endif %}
+      {% endif %}
+      {% endif %}
+
+  
+      {% comment %} {% endif %} {% endcomment %}
+      {% comment %} {% if not request.user.is_staff %}
+      <li class="nav-item">
+        <a class="nav-link {% block contactactive %}{% endblock contactactive %}" href="{% url 'contact' %}">Contact Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% block aboutactive %}{% endblock aboutactive %}" href="{% url 'about' %}">About Us</a>
+      </li>
+      {% endif %} {% endcomment %}
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'about_us' %}">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact_us' %}">Contact</a>
+      </li>
+      {% if  request.user.is_authenticated %}
+      
+      {% comment %} <li class="nav-item">
+        <a class="nav-link {% block profileactive %}{% endblock profileactive %}" href="{% url 'profile' %}">Profile</a>
+      </li> {% endcomment %}
+    
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Logout
+          </a>
+          
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'logout' %}">Bye!Bye!   {{request.user}}</a>
+            <div class="dropdown-divider"></div>
+          </div>
+        </li>
+      {% endif %}
+      
+      {% if not request.user.is_authenticated %}
+      <div class="mr-auto">
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#signupModal">
+                Sign Up
+                </button>
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#loginModal">
+                Login
+                </button>
+              
+            </div>
+      {% endif %}
+      
+      
+
+      
+      
+      
+    </ul>
+  </div>
+</nav>
+
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="loginModalLabel">Signup Here</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form method='POST' action='{% url 'signup' %}'>
+          {% csrf_token %}
+            <div class="mb-3">
+              <label for="fname" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="fname" name='fname' placeholder='Enter Your First Name Here' aria-describedby="fname" Required>
+            </div>
+
+            <div class="mb-3">
+              <label for="lname" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lname" name='lname' placeholder='Enter Your Last Name Here' aria-describedby="lname" Required>
+            </div>
+
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name='username' placeholder='Enter Your Unique Username Here' aria-describedby="username" Required>
+        </div>
+
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name='email' aria-describedby="email" Required>
+          <div id="email" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="pass0" class="form-label">Enter Your Password</label>
+          <input type="password" class="form-control" id="pass0" name='pass0' placeholder='Enter Your Password' Required>
+        </div>
+
+        <div class="mb-3">
+          <label for="pass1" class="form-label">Enter Your Password Again</label>
+          <input type="password" class="form-control" id="pass1" name='pass1' placeholder='Enter Your Password Again' Required>
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+      </form>
+  </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="loginModalLabel">Login Here</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form method='POST' action='{% url 'login' %}'>
+      {% csrf_token %}
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name='username' placeholder='Enter Your Unique Username Here' aria-describedby="username" Required>
+        </div>
+
+        <div class="mb-3">
+          <label for="pass2" class="form-label">Password</label>
+          <input type="password" class="form-control" id="pass2" name='pass2' placeholder='Enter Your Password' Required>
+        </div>
+      <button type="submit" class="btn btn-outline-primary">Login</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% for message in messages  %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show my-2" role="alert">
+    <strong>!!</strong> {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+</head>

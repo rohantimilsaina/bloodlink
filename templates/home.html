@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+  /* Add background color to the page */
+  body {
+    background-color: #e0e0e0;
+  }
+
+  /* Add CSS for hover effect on images */
+  .bg-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+  }
+
+  /* Add CSS for ripple effect on hover */
+  .ripple {
+    position: relative;
+    overflow: hidden;
+  }
+  .ripple:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+  }
+  .ripple:hover:after {
+    transform: translate(-50%, -50%) scale(3);
+  }
+
+  /* Add CSS for shadow effect */
+  .shadow-1-strong {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.07);
+  }
+
+  /* Add CSS for fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .fadeIn {
+    animation: fadeIn 0.5s ease;
+  }
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="row">
+<!--Main layout-->
+<div class="container">
+  <!--Section: News of the day-->
+  {% if recent_post %}
+  <section class="border-bottom pb-4 mb-5">
+    <div class="row gx-5">
+      <div class="col-md-6 mb-4">
+        <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+          <img src="{{recent_post.image.url}}" class="img-fluid w-100" />
+          <a href="#!">
+            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <span class="badge bg-danger px-2 py-1 shadow-1-strong mb-3">Upcoming event</span>
+        <h4><strong>{{recent_post.name}}</strong></h4>
+        <p class="text-muted">
+          {{recent_post.content|truncatechars:300}}
+        </p>
+        <a href="{% url 'campaign_detail' recent_post.id %}" class="btn btn-outline-primary">Read more</a>
+      </div>
+    </div>
+  </section>
+  <!--Section: News of the day-->
+  {% endif %}
+  <!--Section: Content-->
+  {% if other_posts %}
+  <section>
+    <div class="row gx-lg-5">
+
+      {% for o in other_posts %}
+      <a href="{% url 'campaign_detail' o.id %}">
+      <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+        <div>
+          <div class="bg-image hover-overlay shadow-1-strong ripple rounded-5 mb-4"
+            data-mdb-ripple-color="light">
+            <img src="{{o.image.url}}" class="img-fluid w-100" alt="..." />
+            
+              <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+            
+          </div>
+
+          <!-- Article data -->
+          <div class="row mb-3">
+            <div class="col-6">
+              <a href="" class="text-info">
+                <i class="fa fa-heartbeat"></i>
+                Donation
+              </a>
+            </div>
+
+            <div class="col-6 text-end">
+              <u>Event: {{o.date}}</u>
+            </div>
+          </div>
+
+          <!-- Article title and description -->
+          <a href="" class="text-dark">
+            <h5>{{o.name}}</h5>
+
+            <p>
+              {{o.content|truncatechars:30}}
+            </p>
+          </a>
+
+          <hr />
+
+        <!-- News block -->
+      </div>
+
+      
+        <!-- News block -->
+      </div>
+    </a>
+      {% endfor %}
+    </div>
+  </section>
+  <!--Section: Content-->
+  {% endif %}
+  <!-- Pagination -->
+</div>
+<!--Main layout-->
+{% if remaining_posts %}
+<div class="row gx-5 my-3">
+  {% for i in remaining_posts  %}
+  <div class="col-md-3 mb-4">
+
+  <a href="{% url 'campaign_detail' i.id %}" class="text-dark">
+  <div class="row mb-4 border-bottom pb-2">
+    <div class="col-3">
+      <img src="{{i.image.url}}"
+        class="img-fluid shadow-1-strong rounded" alt="Brooklyn Bridge" />
+    </div>
+
+    <div class="col-9">
+      <p class="mb-2"><strong>{{i.name}}</strong></p>
+      <p>
+        <u>{{i.date}}</u>
+      </p>
+    </div>
+  </div>
+</a>
+</div>
+{% endfor %}
+</div>
+{% endif %}
+</div>
+{% endblock body %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <!-- Additional CSS styles specific to this page -->
+{% endblock css %}
+
+{% block body %}
+<h1>Confirm Delete</h1>
+<p>Are you sure you want to delete "{{ campaign.name }}"?</p>
+<form action="{% url 'campaign_delete' campaign.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+<a href="{% url 'campaign_detail' campaign.pk %}">Cancel</a>
+{% endblock body %}

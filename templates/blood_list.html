@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <!-- Additional CSS styles specific to this page -->
+{% endblock css %}
+
+{% block body %}
+  <h1>Blood List</h1>
+  <a class='btn btn-outline-primary my-2 mr-2' href="{% url 'blood_create' %}">Add Blood</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for blood in blood %}
+      <tr>
+        <td>{{ blood.name }}</td>
+        <td>{{ blood.qty }}</td>
+        <td>
+          <a href="{% url 'blood_update' blood.pk %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'blood_delete' blood.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock body %}

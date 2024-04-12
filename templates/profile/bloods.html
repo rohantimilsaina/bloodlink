@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <!-- Additional CSS styles specific to this page -->
+    .bloods-container {
+        margin: 20px;
+    }
+
+    .blood-card {
+        display: flex; /* Use flexbox */
+        justify-content: space-between; /* Distribute items evenly */
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .blood-card h3 {
+        color: #d32f2f; /* Red color for blood type */
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .blood-card p {
+        color: #444;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .blood-card .button-container {
+        display: flex;
+        flex-direction: column; /* Place items in a column */
+        align-items: flex-end; /* Align items to the end of the column */
+    }
+
+    .distance {
+        margin-bottom: 10px; /* Add margin to separate distance and button */
+        font-size: 16px;
+    }
+
+    .btn-show-map {
+      background-color: transparent; /* Transparent background */
+      color: #4CAF50; /* Green color for text */
+      border: 2px solid #4CAF50; /* Green outline */
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s; /* Transition both background-color and color */
+  }
+  
+  .btn-show-map:hover {
+      background-color: #4CAF50; /* Green background on hover */
+      color: #fff; /* White text on hover */
+  }
+{% endblock css %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+        <h2 style="font-family: 'Arial Black', sans-serif; color: #d32f2f; margin-bottom: 30px;">Blood Availability</h2>
+        <div class="search-area mb-4">
+
+            <form action="{% url 'blood_search' %}" method="GET">
+                <select name="blood_type" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+                    <option value="">Select Blood Type</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+                <button class="btn btn-outline-success my-2" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="bloods-container">
+            {% for data in my_data %}
+            <div class="blood-card">
+                <div class="info-container">
+                    <h3>{{ data.blood.name }}</h3>
+                    <p style="font-weight: bold;">Quantity: {{ data.blood.qty }}</p>
+                    <a href="{% url 'provider_profile_availa' data.blood.provider.id %}">Provider: {{ data.blood.provider.name }}</a>
+                </div>
+                <div class="button-container">
+                    <p class="distance" style="color:red;"><i class="fas fa-map-marker-alt"></i> {{data.distance}} km away</p>
+                    <button class="btn-show-map" onclick="showOnMap({{ data.blood.provider.latitude }}, {{ data.blood.provider.longitude }})">
+                        Show on Map
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function showOnMap(latitude, longitude) {
+        var mapsUrl = 'https://www.google.com/maps?q=' + latitude + ',' + longitude;
+        window.open(mapsUrl, '_blank');
+    }
+</script>
+{% endblock body %}

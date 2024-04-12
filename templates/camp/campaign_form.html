@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+  /* Additional CSS styles specific to this page */
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #e0e0e0; /* Darker shade */
+  }
+
+  /* Center align the form */
+  form {
+      margin: 0 auto;
+      width: 100%; /* Adjust as needed */
+      max-width: 600px; /* Maximum width similar to Instagram */
+      padding: 20px;
+      background-color: #f9f9f9; /* Background color of form */
+      border: 1px solid rgba(219, 219, 219, 0.5); /* Border color with reduced transparency */
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Box shadow for a card-like effect */
+  }
+
+  /* Adjust form elements */
+  input[type="text"],
+  input[type="file"],
+  textarea,
+  input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #dbdbdb;
+      border-radius: 3px;
+      box-sizing: border-box;
+  }
+
+  textarea {
+      height: 100px;
+      resize: none; /* Disable textarea resize */
+  }
+
+  /* Style submit button */
+  input[type="submit"] {
+      background-color: #3897f0; /* Instagram's primary color */
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 10px 20px;
+      cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+      background-color: #2778d6; /* Darker shade on hover */
+  }
+
+  /* Center align the heading */
+  .heading {
+      text-align: center;
+      margin-bottom: 20px;
+  }
+
+  /* Style for the container box */
+  .container {
+      margin: 20px auto;
+      width: 90%; /* Adjust as needed */
+      max-width: 600px; /* Maximum width similar to Instagram */
+  }
+
+  /* Style for back button */
+  .back-button {
+      background-color: transparent;
+      border: none; /* Blue border */
+      border-radius: 3px; /* Small border curve */
+      color: #003569; /* Blue button color */
+      font-size: 24px; /* Decreased font size */
+      font-weight: bold; /* Make the arrow more bold */
+      padding: 0.5px 10px; /* Add padding for better visual appearance */
+      cursor: pointer;
+      transition: all 0.3s ease; /* Smooth transition for hover effect */
+  }
+
+  .back-button:hover {
+      background-color: #003569; /* Change background color on hover */
+      color: #fff; /* Change text color on hover */
+  }
+
+  .back-button:focus {
+      outline: none; /* Remove focus outline */
+  }
+
+  .back-button:active {
+      transform: translateY(2px); /* Add slight click effect */
+  }
+
+
+{% endblock css %}
+
+{% block body %}
+<div class="container">
+    <form id="campaignForm" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <h1 class="heading">{% if form.instance.pk %}Edit Campaign{% else %}Create Campaign{% endif %}</h1>
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="Save">
+    </form>
+    <br>
+    <button onclick="window.location.href='{% url 'campaign_list' %}'" class="back-button">&#8592;</button>
+</div>
+
+<script>
+function validateForm() {
+    var name = document.forms["campaignForm"]["name"].value;
+    var image = document.forms["campaignForm"]["image"].value;
+    var content = document.forms["campaignForm"]["content"].value;
+    var date = document.forms["campaignForm"]["date"].value;
+    
+    if (name == "" || image == "" || content == "" || date == "") {
+        document.getElementById("errorMessage").style.display = "block";
+        return false;
+    }
+}
+</script>
+{% endblock body %}

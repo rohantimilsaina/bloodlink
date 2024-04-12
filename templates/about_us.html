@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!-- Main content -->
+    <main>
+        <style>
+            /* Define animation for headings */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Define animation for paragraphs */
+            @keyframes fadeInCenter {
+                from {
+                    opacity: 0;
+                    transform: translateX(-50%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            /* Apply animation to headings */
+            h2 {
+                animation: fadeInUp 1s ease-out;
+            }
+
+            /* Apply animation to center-aligned paragraphs */
+            p.center {
+                animation: fadeInCenter 1s ease-out;
+                text-align: center;
+                color: red;
+                font-size: 20px; /* Increase font size */
+                font-weight: bold; /* Make font bold */
+            }
+
+            /* Cover styling */
+            #cover {
+                background-image: url('static/img/about.jpg'); /* Add your background image path here */
+                background-size: cover;
+                background-position: center;
+                height: 50vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+                text-align: center;
+            }
+
+            #cover h1 {
+                font-size: 3rem;
+            }
+
+            #about {
+                padding: 50px 0;
+            }
+
+            #about .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            #about .container .content {
+                flex: 1;
+            }
+
+            #about .container .video {
+                flex: 1;
+                margin-left: 20px;
+            }
+
+            #about .container .video iframe {
+                width: 100%; /* Adjust the width */
+                max-width: 500px; /* Maximum width */
+                height: 300px; /* Maintain aspect ratio */
+            }
+        </style>
+
+        <!-- Cover section -->
+        <section id="cover">
+            <h1>1 Drop Blood, 1 Life</h1>
+        </section>
+        <br>
+        <!-- About section -->
+        <p class="center">Blood Management website initiated by NRCS Baliya for helping those in need.</p>
+        <section id="about">
+            <div class="container">
+                <div class="content">
+                    <h2>Mission</h2>
+                    <p>Our mission is to provide a centralized platform that connects blood banks and donors, making it easier for patients to access life-saving blood transfusions.</p>
+                    <h2>Vision</h2>
+                    <p>We envision a world where no one suffers due to the unavailability of blood. Through our platform, we strive to ensure that every individual in need receives timely and adequate blood supplies.</p>
+                </div>
+                <div class="video">
+                    <!-- Replace 'your_youtube_embed_link' with your actual YouTube video embed link -->
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/-kkfc-ZJSJU?si=XfBCoz5VYEU7TVpa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                </div>
+            </div>
+        </section>
+    </main>
+{% endblock body %}
