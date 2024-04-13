@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect,HttpResponse
 from .models import Blood, Campaign,BloodBank
-from .forms import BloodForm, CampaignForm, BloodBankForm
+from .forms import BloodForm, CampaignForm, BloodBankForm, BloodBankUpdateForm
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
@@ -113,16 +113,30 @@ def BloodAndCamp(request):
 def about_us(request):
     return render(request, 'about_us.html')
 
-def update_profile_bloodbank(request,id):
-    bloodbank = get_object_or_404(BloodBank, id=id)
+@login_required
+def update_profile_bloodbank(request, id):
+    blood_bank = get_object_or_404(BloodBank, id=id, user=request.user)
+    
     if request.method == 'POST':
-        form = BloodBankForm(request.POST, request.FILES, instance=bloodbank)
+        form = BloodBankForm(request.POST, instance=blood_bank)
         if form.is_valid():
-            form.save()
-            return redirect('provider_profile')
+            blood_bank = form.save(commit=False)
+            
+            # Retrieve latitude and longitude values as floats
+            latitude = request.POST.get('latitude')
+            longitude = request.POST.get('longitude')
+            
+            # Ensure latitude and longitude are not empty strings before converting to floats
+            if latitude and longitude:
+                blood_bank.latitude = float(latitude)
+                blood_bank.longitude = float(longitude)
+            
+            blood_bank.save()
+            return redirect('home')  # Replace 'success_url' with the URL name of your success page
     else:
-        form = BloodBankForm(instance=bloodbank)
+        form = BloodBankForm(instance=blood_bank)
     return render(request, 'blood_bank_update_form.html', {'form': form})
+
 
 def terms_and_conditions(request):
     return render(request, 'terms.html')

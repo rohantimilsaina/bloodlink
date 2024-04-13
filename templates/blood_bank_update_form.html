@@ -1,6 +1,7 @@
 <!-- HTML template: update_provider.html -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
 {% block css %}
   <!-- Additional CSS styles specific to this page -->
 {% endblock css %}
@@ -12,14 +13,14 @@
     {{ form|crispy }}
 
     <!-- Add hidden fields for latitude and longitude -->
-    <input type="hidden" id="id_latitude" name="latitude">
-    <input type="hidden" id="id_longitude" name="longitude">
+    <input type="hidden" id="id_latitude" name="latitude" value="{{ form.instance.latitude }}">
+    <input type="hidden" id="id_longitude" name="longitude" value="{{ form.instance.longitude }}">
     
     <!-- Add a button to update location -->
     <button type="button" id="updateLocationBtn" class="btn btn-primary">Get My Location</button>
 
     <!-- Submit button (initially hidden) -->
-    <button type="submit" id="submitBtn" class="btn btn-primary" style="display: none;">Submit</button>
+    <button type="submit" id="submitBtn" class="btn btn-primary" style="display: none;">Update</button>
   </form>
 
   <script>

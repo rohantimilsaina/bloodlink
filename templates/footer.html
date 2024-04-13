@@ -1,4 +1,4 @@
-{% comment %} {% load static %}
+{% load static %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
@@ -153,20 +153,22 @@
       <div class="footer-cta py-5">
         <div class="row">
           <div class="col-sm-6 col-xl-4 mb-30">
-            <div class="single-cta">
+            <a href="https://maps.google.com/maps?q=28.631643,81.151215" target="_blank">
+              <div class="single-cta">
                 <i class="fas fa-map-marker-alt"></i>
-              <div class="cta-text">
-                <h4>Find us</h4>
-                <span>Kathmandu, Nepal</span>
+                <div class="cta-text">
+                  <h4>Find us</h4>
+                  <span>Lamki Chuha, Kailali, Nepal</span>
+                </div>
               </div>
-            </div>
-          </div>
+            </a>
+          </div>          
           <div class="col-sm-6 col-xl-4 mb-30">
             <div class="single-cta">
                 <i class="fas fa-phone-alt"></i>
               <div class="cta-text">
                 <h4>Call us</h4>
-                <span>9823543454</span>
+                <span>9848422471</span>
               </div>
             </div>
           </div>
@@ -181,60 +183,25 @@
           </div>
         </div>
       </div>
-      <div class="footer-content py-5">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="footer-widget">
-              <div class="footer-logo">
-                <a href="#"><img decoding="async" src="{% static "img/BGDark.png" %}" class="img-fluid"></a>
-              </div>
-              <div class="footer-text">
-                <p>Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod tempor incididuntut consec tetur adipisicing elit,Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div class="footer-social-icon">
-                <span>Follow us</span>
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="footer-widget">
-               <div class="footer-widget-heading">
-                 <h3>Useful Links</h3>
-               </div>
-               <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="about_us">about us</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-               </ul>
-            </div>
-          </div>
-         
-        </div>
-      </div>
+      <br>
     </div>
     <div class="copyright-area">
       <div class="container">
         <div class="row">
           <div class="col-xl-6 col-lg-6 text-center text-lg-left">
             <div class="copyright-text">
-              <p>Copyright © 2024, All Right Reserved <a href="#">BloodLink</a></p>
+              <p>Copyright © 2024, All Right Reserved <a href= '{% url "home"%}'>BloodLink</a></p>
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 text-right d-none d-lg-block">
             <div class="footer-menu">
               <ul>
-                <li><a href="terms">Terms</a></li>
-                <li><a href="privacy_concern">Privacy</a></li>
-                <li><a href="#">Policy</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href='{% url "terms"%}'>Terms</a></li>
+                <li><a href='{% url "privacy_concern"%}'>Privacy</a></li>
               </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </footer> {% endcomment %}
+  </footer>

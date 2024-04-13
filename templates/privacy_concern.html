@@ -1,13 +1,51 @@
 {% extends 'base.html' %}
 
 {% block css %}
-<!-- Add any additional CSS specific to privacy.html if needed -->
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        ol {
+            padding-left: 20px;
+            font-size: 1.1rem;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
 {% endblock css %}
 
 {% block body %}
-<div class="container">
-    <h1>Privacy Policy</h1>
-    <p>This section outlines the privacy policy for the Blood Bank Management System.</p>
-    <!-- Add your privacy policy content here -->
+<div class="container" style="padding: 20px; background-color: #f0f0f0; font-family: Arial, sans-serif;">
+    <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;"><strong>Privacy Concern</strong></h1>
+    <hr style= "border: light;"></hr>
+    <p style="font-size: 16px; color: #666; line-height: 1.5;">This section outlines the Privacy Concern for using the Blood Bank Management System.</p>
+    
+    <ul style="list-style-type: disc; margin-left: 20px;">
+        <li>We may collect personal information such as name, contact information, blood type, and medical history when you register for an account or use our services. We may also collect non-personal information such as browser type, operating system, and IP address.</li>
+    
+        <li>We may use the information collected to provide and improve our services, communicate with you, customize your experience, and comply with legal obligations.</li>
+        
+        <li>We may share personal information with authorized personnel within our organization and with third-party service providers who assist us in operating our website and providing services. We do not sell or rent your personal information to third parties.</li>
+        
+        <li>We take reasonable measures to protect the security of your personal information and prevent unauthorized access, disclosure, alteration, or destruction.</li>
+        
+        <li>We may use cookies and similar technologies to collect information about your interactions with our website and improve your experience. You can control cookies through your browser settings.</li>
+        
+        <li>Our website may contain links to third-party websites or services that are not owned or controlled by us. We are not responsible for the privacy practices or content of third-party websites.</li>
+        
+        <li>We reserve the right to update or modify this privacy policy at any time. Any changes will be effective immediately upon posting the updated policy on our website.</li>
+        
+        <li>If you have any questions or concerns about our privacy policy, please contact us at [insert contact information].</li>
+    </ul>
 </div>
 {% endblock body %}

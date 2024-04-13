@@ -92,11 +92,37 @@
         button[type="submit"]:hover {
             background-color: #45a049;
         }
+        .back-button {
+            background-color: transparent;
+            border: none; /* Blue border */
+            border-radius: 3px; /* Small border curve */
+            color: #003569; /* Blue button color */
+            font-size: 24px; /* Decreased font size */
+            font-weight: bold; /* Make the arrow more bold */
+            padding: 0.5px 10px; /* Add padding for better visual appearance */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+            border: none;
+        }
+      
+        .back-button:hover {
+            background-color: #003569; /* Change background color on hover */
+            color: #fff; /* Change text color on hover */
+        }
+      
+        .back-button:focus {
+            outline: none; /* Remove focus outline */
+        }
+      
+        .back-button:active {
+            transform: translateY(2px); /* Add slight click effect */
+        }
     </style>
 </head>
 <body>
     <div class="chat-container">
         <h1>Chat with {{ receiver.username }}</h1>
+        <hr>
         <div id="messages">
             {% for message in messages %}
                 <p class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
@@ -111,6 +137,9 @@
             <button type="submit">Send</button>
         </form>
     </div>
+    <br>
+    <button onclick="window.location.href='{% url 'view_users_with_messages' %}'" class="back-button">&#8592;</button>
+
 
     <script>
         // Function to add messages to the chat window
