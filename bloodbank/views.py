@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect,HttpResponse
 from .models import Blood, Campaign,BloodBank
-from .forms import BloodForm, CampaignForm, BloodBankForm, BloodBankUpdateForm
+from .forms import BloodForm, CampaignForm, BloodBankForm
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
@@ -132,7 +132,7 @@ def update_profile_bloodbank(request, id):
                 blood_bank.longitude = float(longitude)
             
             blood_bank.save()
-            return redirect('home')  # Replace 'success_url' with the URL name of your success page
+            return redirect('provider_profile')  
     else:
         form = BloodBankForm(instance=blood_bank)
     return render(request, 'blood_bank_update_form.html', {'form': form})

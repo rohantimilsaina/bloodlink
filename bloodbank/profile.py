@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect,HttpResponse
-from .models import Profile,Blood
-from .forms import ProfileForm
+from .models import Profile,Blood, BloodBank
+from .forms import ProfileForm, BloodBankForm
 from math import radians, sin, cos, sqrt, atan2
 
 @login_required
@@ -28,7 +28,7 @@ def profile_create(request):
             profile.save()
             
             # Redirect to a success page or return a response
-            return redirect('home')  # Replace 'success_url' with the URL name of your success page
+            return redirect('home')  
     else:
         form = ProfileForm()
     return render(request, 'profile/user_update_profile.html', {'form': form})
@@ -102,13 +102,26 @@ def blood_search(request):
     return render(request, "profile/bloods.html", context)
 
 
-def update_profile_user(request,id):
-    profile = get_object_or_404(Profile, id=id)
+@login_required
+def update_profile_user(request, id):
+    blood_bank = get_object_or_404(Profile, id=id, user=request.user)
+    
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        form = ProfileForm(request.POST, instance=blood_bank)
         if form.is_valid():
-            form.save()
-            return redirect('user_profile')
+            blood_bank = form.save(commit=False)
+            
+            # Retrieve latitude and longitude values as floats
+            latitude = request.POST.get('latitude')
+            longitude = request.POST.get('longitude')
+            
+            # Ensure latitude and longitude are not empty strings before converting to floats
+            if latitude and longitude:
+                blood_bank.latitude = float(latitude)
+                blood_bank.longitude = float(longitude)
+            
+            blood_bank.save()
+            return redirect('user_profile')  # Replace 'success_url' with the URL name of your success page
     else:
-        form = ProfileForm(instance=profile)
+        form = ProfileForm(instance=blood_bank)
     return render(request, 'profile/profile_update_user.html', {'form': form})

@@ -8,11 +8,6 @@ class BloodBankForm(forms.ModelForm):
         model = BloodBank
         fields = ['name','email','phone','number','address','facebook','insta','twitter','website']  # Ensure field names match model
 
-class BloodBankUpdateForm(forms.ModelForm):
-    class Meta:
-        model = BloodBank
-        fields = ['name','email','phone','number','address','facebook','insta','twitter','website','latitude','longitude']  # Ensure field names match model
-
 class BloodForm(forms.ModelForm):
     class Meta:
         model = Blood
