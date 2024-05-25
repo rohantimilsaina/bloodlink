@@ -22,9 +22,7 @@ def profile_create(request):
                 profile.longitude = float(longitude)
             else:
                 # Handle case where latitude or longitude is missing
-                # You can display an error message or take appropriate action
-                pass
-            
+                return HttpResponse("Latitude and longitude are required.", status=400)            
             profile.save()
             
             # Redirect to a success page or return a response

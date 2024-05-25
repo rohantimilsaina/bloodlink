@@ -3,8 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Campaign
 from .forms import CampaignForm
 
-
-
 def campaign_list(request):
     campaigns = Campaign.objects.filter(provider=request.user.bloodbank)
     return render(request, 'camp/campaign_list.html', {'campaigns': campaigns})

@@ -64,14 +64,12 @@ def provider_profile_create(request):
                 blood_bank.latitude = float(latitude)
                 blood_bank.longitude = float(longitude)
             else:
-                # Handle case where latitude or longitude is missing
-                # You can display an error message or take appropriate action
                 pass
             
             blood_bank.save()
             
             # Redirect to a success page or return a response
-            return redirect('home')  # Replace 'success_url' with the URL name of your success page
+            return redirect('home')
     else:
         form = BloodBankForm()
     return render(request, 'update_provider.html', {'form': form})
@@ -175,7 +173,7 @@ def contact_us(request):
                 logger.error(f'Error sending contact form email: {e}')
 
             # Redirect to home page after successful submission
-            return redirect('home')  # Assuming 'home' is the name of the URL pattern for the home page
+            return redirect('home')
     else:
         form = ContactForm()
 
