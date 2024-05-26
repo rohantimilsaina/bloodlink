@@ -16,7 +16,7 @@ def send_message(request):
         message = Message.objects.create(sender=request.user, receiver=receiver, content=content)
         return redirect('chat_room', receiver_id=receiver_id)
     else:
-        return redirect('home')  # Redirect to home or another appropriate page
+        return redirect('home')  # Redirect to home
 
 
 from django.shortcuts import render

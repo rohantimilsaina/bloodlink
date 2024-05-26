@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Profile
 # @csrf_exempt
+#User registration
 def signup(request):
     pass
     if request.method == 'POST':
@@ -43,7 +44,7 @@ def signup(request):
     else:
         return redirect('home')
 
-
+#User login
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -82,7 +83,7 @@ def user_login(request):
     else:
         return redirect('home')
     
-    
+#User logout  
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)

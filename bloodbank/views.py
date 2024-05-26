@@ -68,7 +68,7 @@ def provider_profile_create(request):
             
             blood_bank.save()
             
-            # Redirect to a success page or return a response
+            # Redirect to a success page
             return redirect('home')
     else:
         form = BloodBankForm()
@@ -86,7 +86,7 @@ def provider_profile_for_user(request,id):
     return render(request,"profile/provider_profile_detail.html",context)
 
 def BloodAndCamp(request):
-    # Querying the Campaign objects ordered by publication date (assuming there's a publication_date field)
+    # Querying the Campaign objects ordered by publication date
     campaigns = Campaign.objects.order_by('-created_at')
     
     # Splitting the campaigns into the recent post and other posts

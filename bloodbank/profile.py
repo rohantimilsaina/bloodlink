@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect,HttpResponse
 from .models import Profile,Blood, BloodBank
 from .forms import ProfileForm, BloodBankForm
 from math import radians, sin, cos, sqrt, atan2
+from django.shortcuts import render
 
 @login_required
 def profile_create(request):
@@ -25,7 +26,7 @@ def profile_create(request):
                 return HttpResponse("Latitude and longitude are required.", status=400)            
             profile.save()
             
-            # Redirect to a success page or return a response
+            # Redirect to a success page
             return redirect('home')  
     else:
         form = ProfileForm()
@@ -36,10 +37,8 @@ def user_profile(request):
     bb=Profile.objects.get(user=request.user)
     context={"bb":bb}
     return render(request,"profile/user_profile.html",context)
-from math import radians, sin, cos, sqrt, atan2
-from django.shortcuts import render
-from .models import Blood, Profile
 
+#Calculating distance 
 def calculate_distance(lat1, lon1, lat2, lon2):
     """
     Calculate the distance between two coordinates in kilometers.
@@ -119,7 +118,7 @@ def update_profile_user(request, id):
                 blood_bank.longitude = float(longitude)
             
             blood_bank.save()
-            return redirect('user_profile')  # Replace 'success_url' with the URL name of your success page
+            return redirect('user_profile') 
     else:
         form = ProfileForm(instance=blood_bank)
     return render(request, 'profile/profile_update_user.html', {'form': form})
